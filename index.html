@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Savings Interest BD — free offline DPS & FDR maturity calculator for Bangladesh, in English and বাংলা.">
+<title>Savings Interest BD — DPS & FDR Calculator</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="topbar">
+  <div class="brand">
+    <span class="logo" aria-hidden="true">৳</span>
+    <div>
+      <h1 data-i18n="appTitle">Savings Interest BD</h1>
+      <p data-i18n="appSub">DPS &amp; FDR maturity calculator</p>
+    </div>
+  </div>
+  <button id="lang-toggle" class="lang-btn" type="button">বাংলা</button>
+</header>
+
+<nav class="tabs" role="tablist" aria-label="Sections">
+  <button class="tab active" type="button" role="tab" data-tab="dps" id="tabbtn-dps"><span data-i18n="tabDps">DPS</span></button>
+  <button class="tab" type="button" role="tab" data-tab="fdr" id="tabbtn-fdr"><span data-i18n="tabFdr">FDR</span></button>
+  <button class="tab" type="button" role="tab" data-tab="compare" id="tabbtn-compare"><span data-i18n="tabCompare">Compare</span><span class="badge" id="compare-badge">0</span></button>
+  <button class="tab" type="button" role="tab" data-tab="history" id="tabbtn-history"><span data-i18n="tabHistory">History</span><span class="badge" id="history-badge">0</span></button>
+</nav>
+
+<main>
+  <!-- DPS -->
+  <section class="panel active" id="panel-dps" role="tabpanel" aria-labelledby="tabbtn-dps">
+    <div class="card">
+      <h2 data-i18n="dpsTitle">DPS — monthly deposit growth</h2>
+      <p class="desc" data-i18n="dpsDesc">See what your monthly deposits grow into.</p>
+      <form id="dps-form" novalidate>
+        <div class="field">
+          <span class="lbl" data-i18n="monthly">Monthly installment (৳)</span>
+          <input id="dps-monthly" type="text" inputmode="decimal" value="5000" autocomplete="off">
+          <span class="err" id="err-dps-monthly" role="alert"></span>
+        </div>
+        <div class="row">
+          <div class="field">
+            <span class="lbl" data-i18n="tenure">Tenure</span>
+            <input id="dps-tenure" type="text" inputmode="numeric" value="36" autocomplete="off">
+            <span class="err" id="err-dps-tenure" role="alert"></span>
+          </div>
+          <div class="field">
+            <span class="lbl">&nbsp;</span>
+            <select id="dps-unit" aria-label="Tenure unit">
+              <option value="months" data-i18n="months">months</option>
+              <option value="years" data-i18n="years">years</option>
+            </select>
+          </div>
+        </div>
+        <div class="field">
+          <span class="lbl" data-i18n="rate">Annual interest rate (%)</span>
+          <input id="dps-rate" type="text" inputmode="decimal" value="8" autocomplete="off">
+          <span class="hint" data-i18n="rateHint">Enter your bank's actual rate.</span>
+          <span class="err" id="err-dps-rate" role="alert"></span>
+        </div>
+        <button class="btn" type="submit" data-i18n="calculate">Calculate</button>
+      </form>
+      <div class="results" id="dps-results" hidden>
+        <div class="stat-grid">
+          <div class="stat hero"><span data-i18n="maturity">Maturity value</span><strong id="dps-maturity" data-result="dps-maturity"></strong></div>
+          <div class="stat"><span data-i18n="invested">Total deposited</span><strong id="dps-invested" data-result="dps-invested"></strong></div>
+          <div class="stat"><span data-i18n="interest">Interest earned</span><strong id="dps-interest" data-result="dps-interest"></strong></div>
+        </div>
+        <div class="growth">
+          <h3 data-i18n="growthTitle">Year-by-year growth</h3>
+          <div class="table-wrap">
+            <table aria-describedby="dps-schedule-note">
+              <thead><tr>
+                <th data-i18n="colYear">Year</th>
+                <th data-i18n="invested">Total deposited</th>
+                <th data-i18n="maturity">Maturity value</th>
+                <th data-i18n="interest">Interest earned</th>
+              </tr></thead>
+              <tbody id="dps-schedule"></tbody>
+            </table>
+          </div>
+          <span class="hint" id="dps-schedule-note" data-i18n="scheduleNote">Deposits assumed at the start of each month, compounded monthly.</span>
+        </div>
+        <div class="btn-row">
+          <button class="btn secondary" type="button" id="dps-save" data-i18n="saveCompare">Save to compare</button>
+        </div>
+        <span class="err" id="err-dps-save" role="alert"></span>
+      </div>
+    </div>
+  </section>
+
+  <!-- FDR -->
+  <section class="panel" id="panel-fdr" role="tabpanel" aria-labelledby="tabbtn-fdr">
+    <div class="card">
+      <h2 data-i18n="fdrTitle">FDR — fixed deposit maturity</h2>
+      <p class="desc" data-i18n="fdrDesc">One-time deposit growth.</p>
+      <form id="fdr-form" novalidate>
+        <div class="field">
+          <span class="lbl" data-i18n="principal">Deposit amount (৳)</span>
+          <input id="fdr-principal" type="text" inputmode="decimal" value="100000" autocomplete="off">
+          <span class="err" id="err-fdr-principal" role="alert"></span>
+        </div>
+        <div class="row">
+          <div class="field">
+            <span class="lbl" data-i18n="tenure">Tenure</span>
+            <input id="fdr-tenure" type="text" inputmode="numeric" value="12" autocomplete="off">
+            <span class="err" id="err-fdr-tenure" role="alert"></span>
+          </div>
+          <div class="field">
+            <span class="lbl">&nbsp;</span>
+            <select id="fdr-unit" aria-label="Tenure unit">
+              <option value="months" data-i18n="months">months</option>
+              <option value="years" data-i18n="years">years</option>
+            </select>
+          </div>
+        </div>
+        <div class="field">
+          <span class="lbl" data-i18n="rate">Annual interest rate (%)</span>
+          <input id="fdr-rate" type="text" inputmode="decimal" value="9" autocomplete="off">
+          <span class="hint" data-i18n="rateHint">Enter your bank's actual rate.</span>
+          <span class="err" id="err-fdr-rate" role="alert"></span>
+        </div>
+        <div class="field">
+          <span class="lbl" data-i18n="compounding">Interest method</span>
+          <div class="radio-row">
+            <label><input type="radio" name="fdr-mode" value="simple" checked> <span data-i18n="simple">Simple interest</span></label>
+            <label><input type="radio" name="fdr-mode" value="quarterly"> <span data-i18n="quarterly">Quarterly compounding</span></label>
+          </div>
+        </div>
+        <button class="btn" type="submit" data-i18n="calculate">Calculate</button>
+      </form>
+      <div class="results" id="fdr-results" hidden>
+        <div class="stat-grid">
+          <div class="stat hero"><span data-i18n="maturity">Maturity value</span><strong id="fdr-maturity" data-result="fdr-maturity"></strong></div>
+          <div class="stat"><span data-i18n="invested">Total deposited</span><strong id="fdr-invested" data-result="fdr-invested"></strong></div>
+          <div class="stat"><span data-i18n="interest">Interest earned</span><strong id="fdr-interest" data-result="fdr-interest"></strong></div>
+        </div>
+        <div class="btn-row">
+          <button class="btn secondary" type="button" id="fdr-save" data-i18n="saveCompare">Save to compare</button>
+        </div>
+        <span class="err" id="err-fdr-save" role="alert"></span>
+      </div>
+    </div>
+  </section>
+
+  <!-- COMPARE -->
+  <section class="panel" id="panel-compare" role="tabpanel" aria-labelledby="tabbtn-compare">
+    <div class="card">
+      <h2 data-i18n="compareTitle">Compare schemes</h2>
+      <p class="desc" data-i18n="compareDesc">Up to 3 saved schemes, side by side.</p>
+      <div class="empty" id="compare-empty" data-i18n="compareEmpty">Nothing to compare yet.</div>
+      <div id="compare-wrap" hidden>
+        <div class="table-wrap">
+          <table>
+            <thead><tr>
+              <th data-i18n="scheme">Scheme</th>
+              <th data-i18n="type">Type</th>
+              <th data-i18n="invested">Total deposited</th>
+              <th data-i18n="maturity">Maturity value</th>
+              <th data-i18n="interest">Interest earned</th>
+              <th data-i18n="yield">Yield</th>
+              <th><span class="sr-only" data-i18n="remove">Remove</span></th>
+            </tr></thead>
+            <tbody id="compare-body"></tbody>
+          </table>
+        </div>
+        <div class="btn-row">
+          <button class="btn danger" type="button" id="compare-clear" data-i18n="clearAll">Clear all</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HISTORY -->
+  <section class="panel" id="panel-history" role="tabpanel" aria-labelledby="tabbtn-history">
+    <div class="card">
+      <h2 data-i18n="historyTitle">Calculation history</h2>
+      <div class="empty" id="history-empty" data-i18n="historyEmpty">No calculations yet.</div>
+      <ul class="history-list" id="history-list"></ul>
+      <div class="btn-row" id="history-clear-row" hidden>
+        <button class="btn danger" type="button" id="history-clear" data-i18n="clearAll">Clear all</button>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <p data-i18n="disclaimer">Educational tool — not financial advice.</p>
+</footer>
+
+<script src="calc.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
